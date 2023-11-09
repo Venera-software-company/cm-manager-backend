@@ -5,19 +5,19 @@ export default new mongoose.Schema({
         type: String,
         required: true,
     },
-    color: {
-        type: String,
-        required: true,
-    },
-    fontColor: {
-        type: String,
-        required: false,
-    },
-    type: {
-        type: String,
-        required: true,
-    },
-    userId: {
+    // color: {
+    //     type: String,
+    //     required: true,
+    // },
+    // fontColor: {
+    //     type: String,
+    //     required: false,
+    // },
+    // type: {
+    //     type: String,
+    //     required: true,
+    // },
+    cardId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
     },

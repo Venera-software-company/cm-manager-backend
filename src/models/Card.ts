@@ -1,21 +1,21 @@
 import mongoose from 'mongoose';
-import NoteSchema from '../schemas/NoteSchema';
+import CardSchema from '../schemas/CardSchema';
 
 import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
-NoteSchema.pre('findOneAndUpdate', function (next) {
+CardSchema.pre('findOneAndUpdate', function (next) {
     this.findOneAndUpdate({}, { updatedAt: new Date() });
     next();
 });
 
-NoteSchema.pre('save', function (next) {
+CardSchema.pre('save', function (next) {
     if (!this.isNew) this.updatedAt = new Date();
     next();
 });
 
-NoteSchema.plugin(mongooseAggregatePaginate);
+CardSchema.plugin(mongooseAggregatePaginate);
 
-const Note = mongoose.model('Note', NoteSchema, 'notes');
+const Note = mongoose.model('Card', CardSchema, 'cards');
 
 Note.createIndexes();
 
