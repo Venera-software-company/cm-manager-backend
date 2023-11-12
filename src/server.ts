@@ -12,7 +12,7 @@ mongoose.set("strictQuery", true);
 mongoose.connect(`${process.env.MONGODB_URL}`), (err: unknown) => err && console.log(err);
 
 app.use(bodyParser.json({ limit: '524288000' })); //seting a high limit just for testing purposes
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);

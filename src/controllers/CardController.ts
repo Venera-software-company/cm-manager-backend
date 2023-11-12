@@ -47,7 +47,6 @@ export default {
 
 
             if((search as string).length > 0) {
-                console.log("i was executed")
                 const aggregate = Card.aggregate(
                     [
                         {
