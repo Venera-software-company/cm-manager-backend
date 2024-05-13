@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-
-// import { Types } from 'mongoose';
 import Card from '../models/Card';
 
 export default {
@@ -105,18 +103,6 @@ export default {
             res.status(400).json({ message: 'Error creating a new note, please try again or later' });
         }
     },
-    async addLabel(req: Request , res: Response) {
-        try {
-            const { labels, noteId } = req.body;
-
-            await Card.findOneAndUpdate({ _id: noteId }, { labels: [ ...labels ] });
-
-            res.status(200).json({ message: 'Label attached!' });
-        } catch (err) {
-            console.log(err);
-            res.status(400).json({ message: 'Error, please try again later!' });
-        }
-    },
     async edit(req: Request , res: Response) {
         try {
             const { _id, title, body, image, state, stateId } = req.body;
@@ -139,35 +125,32 @@ export default {
             res.status(400).json({ message: 'Error, please try again later!' });
         }
     },
-    async deleteLabel(req: Request, res: Response) {
+    async attachLabel(req: Request , res: Response) {
         try {
-            const { id, noteId } = req.params;
+            const { labels, cardId } = req.body;
 
-            const { labels } = await Card.findById({ _id: noteId });
+            await Card.findOneAndUpdate({ _id: cardId }, { labels: [ ...labels ] });
 
-            if(!labels) res.status(400).json({ message: "Note wasn't found!"});
-
-            const filtredLabels = labels.filter((_id: string) => _id.toString() !== id);
-            
-            await Card.findByIdAndUpdate({ _id: noteId }, { labels: filtredLabels });
-            
-            res.status(200).json({ message: 'Label detached!' });
+            res.status(200).json({ message: 'Label attached!' });
         } catch (err) {
             console.log(err);
             res.status(400).json({ message: 'Error, please try again later!' });
         }
     },
-    async changeNoteImage(req: Request, res: Response) {
+    async detachLabel(req: Request, res: Response) {
         try {
-            const { noteId } = req.params;
-            const { image } = req.body;
+            const { id, cardId } = req.params;
+            const { labels } = await Card.findById({ _id: cardId });
 
-            await Card.findByIdAndUpdate({ _id: noteId }, { image });
+            if(!labels) res.status(400).json({ message: "Card wasn't found!"});
 
-            return res.status(200).json({ message: "Updated!" });
+            const filtredLabels = labels.filter((_id: string) => _id.toString() !== id);
+            await Card.findByIdAndUpdate({ _id: cardId }, { labels: filtredLabels });
+            
+            res.status(200).json({ message: 'Label detached!' });
         } catch (err) {
             console.log(err);
-            res.status(400).json({ message: err });
+            res.status(400).json({ message: 'Error, please try again later!' });
         }
     },
 }

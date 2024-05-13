@@ -14,27 +14,43 @@ export default new mongoose.Schema({
             type: String,
             required: true,
         },
-        finishDate: {
+        orderDate: {
+            type: mongoose.Schema.Types.Mixed,
+            required: true,
+        },
+        expectedEndDate: {
             type: String,
             required: false,
         },
-        productColor: {
+        furnitureColorVariant: {
             type: String,
             required: false,
-        }
+        },
+        typeOfHousing: {
+            type: String,
+            required: false,
+        },
+        daysThatCanWork: {
+            type: mongoose.Schema.Types.Mixed,
+            required: true,
+        },
     },
     labels: [{
         type: mongoose.Schema.Types.ObjectId,
         required: false,
         ref: 'Label'
     }],
-    image: {
+    furnitureDraw: {
         type: String,
         required: true,
     },
     pageLocation: {
         type: String,
         required: false,
+    },
+    contract: {
+        type: mongoose.Schema.Types.Mixed,
+        required: false
     },
     createdAt: {
         type: Date,
